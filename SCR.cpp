@@ -21,6 +21,7 @@ CRC16Modbus::CRC16Modbus(const QByteArray src):
 
 void CRC16Modbus::initCRC16Table()
 {
+    //Wielomian 0xA001 rewers standardowego wielomianu 0x8005 16-bit lub 2 bajty na tym quint16
     const quint16 polynomial = 0xA001;
 
     quint32 index, j;
@@ -47,6 +48,10 @@ void CRC16Modbus::initCRC16Table()
 QStringList CRC16Modbus::CRC16Table() const
 {
 
+    // Wydruk qDebug() na konsoli i zwraca wygenerowaną tabelę jako listę wierszy.
+    // Niech liczba kolumn będzie wynosić 15.
+
+
     const quint8 columns = 15;
     int counter = 0;
     bool flag = true;
@@ -59,6 +64,9 @@ QStringList CRC16Modbus::CRC16Table() const
             QByteArray src = QByteArray::number(crcTable[counter++], 16).toUpper();
 
 #ifdef QT_DEBUG
+            // Opcja pobierania danych z QByteArray w QString
+            // deb << src.toStdString (). c_str () << "";
+
             deb << QString(src) << "	";
 #endif
             strList << QString(src);
@@ -79,6 +87,7 @@ void CRC16Modbus::calculateCRC16(const QByteArray src)
 
     for(int i=0;i<il;i++)
     {
+        cout << " " << i << endl;
 
 #ifdef QT_DEBUG
     qDebug("Numbers byte arrey: %d", src.length()); // 5 numbers
@@ -143,3 +152,7 @@ void CRC16Modbus::setCRC16(const QByteArray src)
     }
 }
 
+CRC16Modbus::~CRC16Modbus()
+{
+
+}
